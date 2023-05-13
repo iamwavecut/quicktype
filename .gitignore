@@ -37,3 +37,4 @@ test/fixtures/objective-c/quicktype
 .metals
 .scala-build
 .vscode
+/build

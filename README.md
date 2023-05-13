@@ -1,3 +1,16 @@
+This fork exists only because thq original `quicktype/quicktype` doesn't distributes as standalone executable, and yet, not everyone has `nodejs` installed to pull the package. 
+It syncs with the upstream repo daily, and if new commits found - a workflow runs to release new versions of quicktime CLI tools for every platform.
+You can download suitable binary for `linux`, `macos`, and `win` running on a `x64`, `arm64` architecture CPUs as easy as
+```shell
+# linux/macos bash
+curl -Ls https://github.com/iamwavecut/quicktype/releases/latest/download/quicktype-macos-arm64.gz | gzip -d > quicktype && chmod +x quicktype
+
+# win posershell
+Invoke-WebRequest -Uri https://github.com/iamwavecut/quicktype/releases/latest/download/quicktype-win-x64.exe.gz -OutFile quicktype.exe.gz; gzip -d quicktype.exe.gz
+```
+
+Original readme:
+---
 ![](https://raw.githubusercontent.com/quicktype/quicktype/master/media/quicktype-logo.svg?sanitize=true)
 
 [![npm version](https://badge.fury.io/js/quicktype.svg)](https://badge.fury.io/js/quicktype)

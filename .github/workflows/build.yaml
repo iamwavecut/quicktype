@@ -1,0 +1,58 @@
+name: Build and Publish on GH
+permissions: write-all
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - '.github/**'
+      - '.vscode/**'
+      - 'doc/**'
+      - 'media/**'
+      - 'script/**'
+      - 'test/**'
+      - '**/*.md'
+  workflow_dispatch:
+
+jobs:
+    build-release:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Install APT deps
+              run: sudo apt-get install binfmt-support qemu-user-static build-essential libssl-dev
+
+            - name: Install ldid
+              uses: MOZGIII/install-ldid-action@v1
+              with:
+                tag: v2.1.5-procursus7
+
+            - uses: actions/checkout@v3
+
+            - name: Bump version and push tag
+              uses: hennejg/github-tag-action@v4.3.1
+              with:
+                  github_token: ${{ github.token }}
+              id: tagging
+
+            - name: Bootstrap and build distribution
+              uses: ./.github/workflows/setup
+
+            - name: Install PKG bundler
+              run: npm i -g pkg
+
+            - name: Cross-compile with PKG
+              run: pkg -C GZip --no-bytecode --public-packages "*" --public -t node18-linux-x64,node18-linux-arm64,node18-macos-x64,node18-macos-arm64,node18-win-x64,node18-win-arm64 -o ./build/quicktype ./dist/index.js
+
+            - name: Compress built executables
+              run: gzip -9 ./build/quicktype-*
+
+            - name: Release
+              uses: softprops/action-gh-release@v1
+              with:
+                tag_name: ${{ steps.tagging.outputs.new_tag }}
+                generate_release_notes: true
+                files: |
+                  ./build/*.gz
+
+
+

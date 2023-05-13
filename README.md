@@ -1,5 +1,5 @@
 This fork exists only because thq original `quicktype/quicktype` doesn't distributes as standalone executable, and yet, not everyone has `nodejs` installed to pull the package. 
-It syncs with the upstream repo daily, and if new commits found - a workflow runs to release new versions of quicktime CLI tools for every platform.
+It syncs with the upstream repo daily, and if new commits found - a workflow runs to release new versions of quicktype CLI tools for every platform.
 You can download suitable binary for `linux`, `macos`, and `win` running on a `x64`, `arm64` architecture CPUs as easy as
 ```shell
 # linux/macos bash
